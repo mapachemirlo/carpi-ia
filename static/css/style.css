@@ -1,0 +1,318 @@
+/* Fuentes */
+@font-face {
+    font-family: 'Ruberoid';
+    src: url('/static/fonts/Ruberoid-Regular.woff2') format('woff2'),
+         url('/static/fonts/Ruberoid-Regular.woff') format('woff'),
+         url('/static/fonts/Ruberoid-Regular.ttf') format('truetype'),
+         url('/static/fonts/Ruberoid-Regular.eot') format('embedded-opentype'),
+         url('/static/fonts/Ruberoid-SemiBold.eot') format('woff2'),
+         url('/static/fonts/Ruberoid-SemiBold.woff') format('woff'),
+         url('/static/fonts/Ruberoid-SemiBold.ttf') format('truetype'),
+         url('/static/fonts/Ruberoid-SemiBold.eot') format('embedded-opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Ruberoid', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+    position: relative;
+}
+body:before {
+    background: url('/static/images/background.png') no-repeat scroll top transparent;
+    background-size: 100%;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 1rem 2rem; */
+    background-color: transparent;
+    position: relative;
+    z-index: 100;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+/* Hero Section */
+.content{
+    display: flex;
+    height: 95%;
+    flex-direction: column;
+    justify-content: center;
+}
+.main-header {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #000;
+    position: relative;
+    height: 100vh;
+}
+.main-title {
+    font-family: 'Ruberoid';
+    font-size: 43px;
+    /* font-size: 92px; */
+    font-weight: 700;
+    line-height: 48px;
+    /* line-height: 90px; */
+    margin-bottom: 1rem;
+}
+.subtitle {
+    font-family: 'Ruberoid';
+    font-size: 17px;
+    line-height: 21px;
+    /* font-size: 20px; */
+    font-weight: 500;
+    /* line-height: 28px; */
+    margin-bottom: 2rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;    
+}
+.btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Ruberoid';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    
+    border-radius: 6px;    
+    display: inline-block;
+}
+.btn-black {
+    background-color: #000;
+    color: #fff;
+    transition: ease 300ms;
+}
+.btn-black:hover {
+    background-color: #333;
+}
+.btn-white {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    transition: ease 300ms;
+}
+.btn-white:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Impacto section */
+.container-impacto{
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    margin: 1rem;
+    margin-bottom: 18rem;
+}
+.title-content{
+    margin-bottom: 2rem;
+    font-size: 36px;
+}
+.text-content{
+    color: #414141;
+}
+.button-content{
+    justify-content: flex-start;
+    margin: 0 2rem 2rem 0;
+}
+.subcontainer-impacto-imagen{
+    margin-bottom: 2rem;
+}
+.imagen-content{
+    width: 100%;
+}
+.imagen-content img{
+    width: 100%;
+    border-radius: 6px;
+}
+
+/* Tecnologías section */
+.container-tecnologias{
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    margin: 1rem;
+}
+.subcontainer-tecnologias-imagen{
+    margin-bottom: 2rem;
+}
+
+li{
+    list-style: circle;
+    color: #414141;
+    margin: 0 1rem 1rem 1rem;
+}
+
+/* Detector*/
+.main-header-detector{
+    height: auto;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #000;
+    position: relative;
+}
+
+.content-detector{
+    justify-content: flex-start;
+    padding: 0 1rem 2rem 1rem;
+}
+
+.container-video{
+    width: 100%;
+}
+.container-video img{
+    width: 100%;
+    border-radius: 6px;
+}
+.container-historial{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 1rem;
+    margin-bottom: 18rem;
+}
+
+
+
+.object-history {
+    display: flex;
+    flex-direction: column; /* Asegura que las tarjetas se apilen verticalmente */
+    gap: 16px; /* Espacio entre tarjetas */
+}
+
+.card {
+    border: 1px solid #ccc; /* Borde de la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 16px; /* Espaciado interno */
+    background-color: #f9f9f9; /* Fondo claro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.card-title {
+    font-size: 1.25em; /* Tamaño de fuente del título */
+    margin-bottom: 8px; /* Espaciado debajo del título */
+}
+
+.card-description {
+    font-size: 1em; /* Tamaño de fuente */
+    color: #555; /* Color del texto */
+    line-height: 1.5; /* Espaciado entre líneas */
+}
+
+.card-description strong {
+    font-weight: bold; /* Negrita para `<strong>` */
+    color: #333; /* Color más oscuro para énfasis */
+}
+
+.card-description ol, .card-description ul {
+    margin: 8px 0; /* Espaciado superior e inferior */
+    padding-left: 20px; /* Sangría para listas */
+}
+
+.card-description ol li, .card-description ul li {
+    margin-bottom: 4px; /* Espaciado entre ítems */
+}
+
+
+
+/* Responsiveness */
+@media (min-width: 768px) {
+    .main-title{
+        font-size: 92px;
+        line-height: 110px;
+        margin-bottom: 2rem;
+    }
+    .subtitle{
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    /* impacto section */
+    .container-impacto{
+        flex-direction: row;
+        height: 100vh;
+        align-items: center;
+        padding: 5em;
+        
+    }
+    .subcontainer-impacto-texto{
+        width: 60%;
+        padding-right: 10em;
+    }
+    .title-content{
+        font-size: 70px;
+    }
+    .text-content{
+        font-size: 18px;
+    }
+    .subcontainer-impacto-imagen{
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    /* tecnologias section */
+    .container-tecnologias{
+        flex-direction: row-reverse;
+        height: 100vh;
+        align-items: center;
+        padding: 5em;
+    }
+    .subcontainer-tecnologias-texto{
+        width: 60%;
+        padding-left: 10em;
+    }
+    .subcontainer-tecnologias-imagen{
+        width: 40%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .container-detector-historial{
+        display: flex;  
+        align-items: baseline;
+    }
+    .content-detector, .container-historial{
+        width: 50%;
+    }
+    .main-title-detector{
+        font-size: 40px !important;
+        line-height: 40px;
+    }
+    .subcontainer-historial-items{
+        max-height: 500px;
+    overflow-y: scroll;
+    }
+
+
+}

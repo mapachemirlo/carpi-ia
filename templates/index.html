@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpi IA - IA para reconocer el mundo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        let videoElement = null;
+    
+        // Función para acceder a la cámara y mostrar el video
+        async function startCamera() {
+            try {
+                videoElement = document.getElementById("videoElement");
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoElement.srcObject = stream;
+                videoElement.play();
+                captureFrame();  // Comenzamos a capturar frames
+            } catch (err) {
+                console.error("Error al acceder a la cámara", err);
+            }
+        }
+    
+        // Función para capturar un frame y enviarlo al servidor
+        function captureFrame() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+    
+            const imageData = canvas.toDataURL('image/jpeg');
+    
+            // Enviar la imagen al servidor para procesarla
+            fetch('/video_feed', {
+                method: 'POST',
+                body: new URLSearchParams({ 'image': imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const imgElement = document.getElementById("processedImage");
+                imgElement.src = data.image;
+                fetchHistory();  // Actualizamos el historial después de cada frame procesado
+            })
+            .catch(error => console.error('Error al enviar la imagen:', error));
+    
+            // Capturar un nuevo frame cada 100ms (10 FPS)
+            setTimeout(captureFrame, 100);
+        }
+
+        // Función para obtener la lista de descripciones de objetos encontrados
+        function fetchHistory() {
+            fetch('/describe_object')
+                .then(response => response.json())
+                .then(data => {
+                    const historyContainer = document.getElementById("object-history");
+                    historyContainer.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos elementos
+                    data.history.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "card"; // Clase para estilos de la tarjeta
+                        
+                        const title = document.createElement("h3");
+                        title.textContent = item.object;
+                        title.className = "card-title"; // Clase para estilos del título
+                        
+                        const description = document.createElement("p");
+                        description.innerHTML = formatDescription(item.description);
+                        description.className = "card-description"; // Clase para estilos de la descripción
+
+                        
+                        card.appendChild(title);
+                        card.appendChild(description);
+                        historyContainer.appendChild(card);
+
+                        // const listItem = document.createElement("li");
+                        // listItem.textContent = `${item.object}: ${item.description}`;
+                        // historyContainer.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching history:', error));
+        }
+
+        function formatDescription(description) {
+    // Normalizar saltos de línea
+    description = description.replace(/\r\n|\r|\n/g, '\n');
+
+    // Convertir negritas `**texto**` a `<strong>texto</strong>`
+    description = description.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // Convertir listas con guiones `- texto` a `<ul><li>texto</li></ul>`
+    description = description.replace(/(?:^|\n)-\s*(.+)/g, '<li>$1</li>'); // Líneas con `-` a `<li>`
+    description = description.replace(/(<li>.*<\/li>)+/g, '<ul>$&</ul>'); // Agrupar `<li>` consecutivos en `<ul>`
+
+    // Convertir listas con asteriscos `* texto` a `<ul><li>texto</li></ul>`
+    description = description.replace(/(?:^|\n)\*\s*(.+)/g, '<li>$1</li>'); // Líneas con `*` a `<li>`
+    description = description.replace(/(<li>.*<\/li>)+/g, '<ul>$&</ul>'); // Agrupar `<li>` consecutivos en `<ul>`
+
+    // Convertir listas enumeradas `1. texto` a `<ol><li>texto</li></ol>`
+    description = description.replace(/(?:^|\n)\d+\.\s*(.+)/g, '<li>$1</li>'); // Líneas con números a `<li>`
+    description = description.replace(/(<li>.*<\/li>)+/g, '<ol>$&</ol>'); // Agrupar `<li>` consecutivos en `<ol>`
+
+    // Reemplazar saltos de línea restantes con `<br>` para separación de párrafos
+    description = description.replace(/\n/g, '<br>');
+
+    return description;
+}
+
+
+
+        // Iniciar la cámara al cargar la página
+        window.onload = startCamera;
+    </script>
+</head>
+<body>
+    <header class="main-header-detector">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../static/images/carpi-ia-logo.png" width="50px" alt="">
+                <p>Carpi IA</p>
+            </div>            
+        </nav>        
+    </header>
+
+    <div class="container-detector-historial">
+        <section class="content-detector">
+            
+            <h1 class="main-title main-title-detector">Detector</h1>
+            <video id="videoElement" width="800" height="600" style="display: none;" autoplay></video>
+            <div class="container-video">
+                <img id="processedImage" width="800" />
+            </div>
+        </section>
+    
+        <section class="container-historial">
+            <h2 class="main-title title-content main-title-detector">Descubre lo que encontraste:</h2>
+            <div class="subcontainer-historial-items">
+                <ul id="object-history" class="object-history">
+                    <!-- {% for item in history %}
+                        <li>{{ item.object }}: {{ item.description }}</li>
+                    {% endfor %} -->
+                </ul>
+            </div>        
+        </section>
+    </div>
+    
+</body>
+</html>
